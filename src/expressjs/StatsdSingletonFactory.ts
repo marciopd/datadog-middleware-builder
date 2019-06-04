@@ -7,7 +7,7 @@ const METRICS_PREFIX = '';
 const METRICS_SUFFIX = '';
 
 export class StatsdSingletonFactory {
-    public static createFactory(agentHost: string, agentPort: number,
+    public static setupFactory(agentHost: string, agentPort: number,
                                 cacheDns: boolean, globalTags: string[]): void {
         if (this.FACTORY) {
             throw new Error('Factory already created');
