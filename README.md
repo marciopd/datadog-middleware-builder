@@ -13,12 +13,20 @@ $ npm i datadog-middleware-builder
 ### Express.js integration
 
 ```typescript
-    app.use(DatadogMiddlewareBuilder.build(
-      Config.DATADOG_AGENT_HOST,
-      Config.DATADOG_AGENT_PORT,
-      Config.DATADOG_SERVICE_NAME,
-      Config.DATADOG_CACHE_DNS,
-      Config.DATADOG_GLOBAL_TAGS));
+import { DatadogMiddlewareBuilder, StatsdSingletonFactory } from 'datadog-middleware-builder';
+
+const getStatsdClient = (): any => {
+  StatsdSingletonFactory.setupFactory(
+    Config.DATADOG_AGENT_HOST,
+    Config.DATADOG_AGENT_PORT,
+    Config.DATADOG_CACHE_DNS,
+    Config.DATADOG_GLOBAL_TAGS);
+  return StatsdSingletonFactory.getStatsdClient();
+};
+
+...
+
+app.use(DatadogMiddlewareBuilder.build(getStatsdClient(), Config.DATADOG_SERVICE_NAME));
 ```
 
 You can check [Datadog's documentation](https://docs.datadoghq.com/integrations/express/) to see what are the exposed metrics.
