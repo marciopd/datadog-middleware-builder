@@ -3,6 +3,7 @@ import {StatsdSingletonFactory} from '../expressjs/StatsdSingletonFactory';
 let statsdClient = undefined;
 
 const SUCCESS_CODE = 200;
+const ALL_RESPONSES_CODE = 'all';
 
 const STUB_CLIENT = {
     histogram: (metricName: string, responseTime: number, rate: number) => {
@@ -29,22 +30,26 @@ const sendResponseTimeMetric = (metricName: string, start: number) => {
     getStatsdClient().histogram(`${metricName}.response_time`, Date.now() - start, 1);
 };
 
-const sendResponseCodeMetric = (metricName: string, errorCode: number) => {
-    getStatsdClient().increment(`${metricName}.response_code.${errorCode}`, 1);
+const sendResponseCodeMetric = (metricName: string, responseCode: number | string) => {
+    getStatsdClient().increment(`${metricName}.response_code.${responseCode}`, 1);
+};
+
+const sendResponseMetrics = (metricName: string, start: number, responseCode: number | string) => {
+    sendResponseTimeMetric(metricName, start);
+    sendResponseCodeMetric(metricName, responseCode);
+    sendResponseCodeMetric(metricName, ALL_RESPONSES_CODE);
 };
 
 export const measureTime = (metricName: string, fn: () => Promise<any>): Promise<any> => {
     const onPromiseDone = (result) => {
-        sendResponseTimeMetric(metricName, start);
-        sendResponseCodeMetric(metricName, SUCCESS_CODE);
+        sendResponseMetrics(metricName, startTime, SUCCESS_CODE);
         return result;
     };
     const onPromiseError = (error) => {
-        sendResponseTimeMetric(metricName, start);
         const errorCode = error && error.statusCode || error && error.response && error.response.status || 500;
-        sendResponseCodeMetric(metricName, errorCode);
+        sendResponseMetrics(metricName, startTime, errorCode);
         return Promise.reject(error);
     };
-    const start: number = Date.now();
+    const startTime: number = Date.now();
     return fn().then(onPromiseDone, onPromiseError);
 };

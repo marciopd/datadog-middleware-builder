@@ -1,6 +1,6 @@
 {
   "name": "datadog-middleware-builder",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Datadog integration middleware builder in Typescript.",
   "main": "dist/index",
   "typings": "dist/index",
