@@ -26,16 +26,16 @@ const getStatsdClient = () => {
     return statsdClient;
 };
 
-const sendResponseTimeMetric = (metricName: string, start: number) => {
-    getStatsdClient().histogram(`${metricName}.response_time`, Date.now() - start, 1);
+const sendResponseTimeMetric = (metricName: string, timeElapsedMilliseconds: number) => {
+    getStatsdClient().histogram(`${metricName}.response_time`, timeElapsedMilliseconds, 1);
 };
 
 const sendResponseCodeMetric = (metricName: string, responseCode: number | string) => {
     getStatsdClient().increment(`${metricName}.response_code.${responseCode}`, 1);
 };
 
-const sendResponseMetrics = (metricName: string, startTime: number, responseCode: number | string): void => {
-    sendResponseTimeMetric(metricName, startTime);
+const sendResponseMetrics = (metricName: string, timeElapsedMilliseconds: number, responseCode: number | string): void => {
+    sendResponseTimeMetric(metricName, timeElapsedMilliseconds);
     sendResponseCodeMetric(metricName, responseCode);
     sendResponseCodeMetric(metricName, ALL_RESPONSES_CODE);
 };
@@ -44,11 +44,11 @@ const getErrorCode = (error: any): number => {
     return error && error.statusCode || error && error.response && error.response.status || 500;
 };
 
-export const sendErrorResponseMetrics = (metricName: string, startTime: number, error: any): void => {
+export const sendErrorResponseMetrics = (metricName: string, timeElapsedMilliseconds: number, error: any): void => {
     const errorCode = getErrorCode(error);
-    sendResponseMetrics(metricName, startTime, errorCode);
+    sendResponseMetrics(metricName, timeElapsedMilliseconds, errorCode);
 };
 
-export const sendOkResponseMetrics = (metricName: string, startTime: number): void => {
-    sendResponseMetrics(metricName, startTime, SUCCESS_CODE);
+export const sendOkResponseMetrics = (metricName: string, timeElapsedMilliseconds: number): void => {
+    sendResponseMetrics(metricName, timeElapsedMilliseconds, SUCCESS_CODE);
 };
