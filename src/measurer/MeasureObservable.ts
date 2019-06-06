@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {sendErrorResponseMetrics, sendOkResponseMetrics} from './MeasureCommons';
 
-export const measureObservable = (metricName: string, obs: Observable<any>): Observable<any> => {
+export const measureObservable = <T>(metricName: string, obs: Observable<T>): Observable<T> => {
     const startTime = Date.now();
     return obs.pipe(
         tap(() => sendOkResponseMetrics(metricName, Date.now() - startTime),

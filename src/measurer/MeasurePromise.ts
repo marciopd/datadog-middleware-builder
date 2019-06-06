@@ -1,6 +1,6 @@
 import {sendErrorResponseMetrics, sendOkResponseMetrics} from './MeasureCommons';
 
-export const measurePromise = (metricName: string, fn: () => Promise<any>): Promise<any> => {
+export const measurePromise = <T>(metricName: string, fn: () => Promise<T>): Promise<T> => {
     const onPromiseDone = (result) => {
         sendOkResponseMetrics(metricName, startTime);
         return result;
