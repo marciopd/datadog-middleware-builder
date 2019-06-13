@@ -8,6 +8,7 @@ export class DatadogMiddlewareBuilder {
             dogstatsd: statsdClient,
             stat: serviceName,
             path: false,
+            method: true,
             response_code: true,
         });
     }
