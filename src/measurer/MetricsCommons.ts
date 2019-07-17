@@ -56,6 +56,6 @@ export const sendOkResponseMetrics = (metricName: string, timeElapsedMillisecond
     sendResponseMetrics(metricName, timeElapsedMilliseconds, SUCCESS_CODE);
 };
 
-export const sendUniqueMetric = (metricName: string, value: number, tags?: string[]) => {
-    getStatsdClient().unique(metricName, value, undefined, tags);
+export const sendMetric = (metricName: string, value: number, tags?: string[]) => {
+    getStatsdClient().gauge(metricName, value, undefined, tags);
 };
