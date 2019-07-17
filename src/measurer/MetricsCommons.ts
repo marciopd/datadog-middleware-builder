@@ -12,6 +12,9 @@ const STUB_CLIENT = {
     increment: (metricName: string, incrementCount: number) => {
         return undefined;
     },
+    unique: (metricName: string, value: number) => {
+        return undefined;
+    },
 };
 
 const getStatsdClient = () => {
@@ -51,4 +54,8 @@ export const sendErrorResponseMetrics = (metricName: string, timeElapsedMillisec
 
 export const sendOkResponseMetrics = (metricName: string, timeElapsedMilliseconds: number): void => {
     sendResponseMetrics(metricName, timeElapsedMilliseconds, SUCCESS_CODE);
+};
+
+export const sendUniqueMetric = (metricName: string, value: number) => {
+    getStatsdClient().unique(metricName, value);
 };

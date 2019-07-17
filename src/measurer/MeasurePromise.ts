@@ -1,4 +1,4 @@
-import {sendErrorResponseMetrics, sendOkResponseMetrics} from './MeasureCommons';
+import {sendErrorResponseMetrics, sendOkResponseMetrics} from './MetricsCommons';
 
 export const measurePromise = <T>(metricName: string, fn: () => Promise<T>): Promise<T> => {
     const onPromiseDone = (result) => {
