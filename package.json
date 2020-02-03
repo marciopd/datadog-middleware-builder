@@ -32,9 +32,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "connect-datadog": "0.0.7",
+    "connect-datadog": "0.0.9",
     "hot-shots": "6.8.6",
-    "json-logger-service": "1.0.7",
+    "json-logger-service": "1.0.18",
     "rxjs": "6.3.3"
   },
   "devDependencies": {
