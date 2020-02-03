@@ -1,5 +1,5 @@
 import * as ConnectDatadog from 'connect-datadog';
-import * as StatsD from 'node-statsd';
+import {StatsD} from 'hot-shots';
 
 export class DatadogMiddlewareBuilder {
     public static build(statsdClient: StatsD,

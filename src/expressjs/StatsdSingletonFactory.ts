@@ -1,4 +1,4 @@
-import * as StatsD from 'node-statsd';
+import {StatsD} from 'hot-shots';
 import {JsonLogger, LoggerFactory} from 'json-logger-service';
 
 const GLOBAL_STATSD_CLIENT = false;
@@ -37,16 +37,21 @@ export class StatsdSingletonFactory {
         return this.client;
     }
 
-    private buildClient(): StatsD {
-        this.client = new StatsD(
-            this.agentHost,
-            this.agentPort,
-            METRICS_PREFIX,
-            METRICS_SUFFIX,
-            GLOBAL_STATSD_CLIENT,
-            this.cacheDns,
-            MOCK_CLIENT,
-            this.globalTags,
+    private buildClient(): void {
+        const agentHost = this.agentHost;
+        const agentPort = this.agentPort;
+        const cacheDns = this.cacheDns;
+        const globalTags  = this.globalTags;
+        this.client = new StatsD({
+                host: agentHost,
+                port: agentPort,
+                prefix: METRICS_PREFIX,
+                suffix: METRICS_SUFFIX,
+                globalize: GLOBAL_STATSD_CLIENT,
+                cacheDns: cacheDns,
+                mock: MOCK_CLIENT,
+                globalTags: globalTags,
+            },
         );
 
         this.client.socket.on('error', (error: any) => {
