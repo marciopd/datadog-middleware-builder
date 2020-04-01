@@ -1,6 +1,6 @@
 {
   "name": "datadog-middleware-builder",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "Datadog integration middleware builder in Typescript.",
   "main": "dist/index",
   "typings": "dist/index",
@@ -33,7 +33,7 @@
   "license": "MIT",
   "dependencies": {
     "connect-datadog": "^0.0.9",
-    "hot-shots": "^6.8.6",
+    "hot-shots": "^7.2.0",
     "json-logger-service": "^1.0.18",
     "rxjs": "^6.0.0"
   },
