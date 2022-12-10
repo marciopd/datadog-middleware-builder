@@ -34,7 +34,7 @@
   "dependencies": {
     "connect-datadog": "^0.0.9",
     "hot-shots": "^8.3.0",
-    "json-logger-service": "^7.6.4",
+    "json-logger-service": "^9.0.0",
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
